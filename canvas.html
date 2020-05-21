@@ -1,0 +1,227 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="Stylesheet" type="text/css" href="barcode.css">
+    <script type="text/javascript" src="bresenham.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="keywords" content="Bresenham, algorithmus, line, circle, ellipse, plot, plotting, draw, drawing, Bezier, raster" />
+    <link rel="SHORTCUT ICON" href="favicon.ico" />
+    
+    <script type="text/javascript">
+    function Psns(ml) { return 'to:'+ ml + 'qay'; }
+    window.onload = function() {    with (document.getElementById("[at]").firstChild.parentNode) {
+      setAttribute("href", getAttribute("href").replace("qay", "@")); } }
+    </script>
+<style>
+
+	[tabs] {
+		display: flex;
+		padding: 0px;
+		font-size: 1em;
+		padding: 5px 20px;
+		width: 700px;
+	}
+	[tabs] > * {
+		background: #80DFFF;
+		flex-grow:1;
+		font-size: 1.5em;
+		padding: 10px 20px;
+		cursor: pointer;
+		border: 1px solid #aaa;
+		text-align: center;
+		margin-top: -1px;
+		background: #eff;
+	}
+	[tabs] > :hover {
+		color: #036;
+		background: #ccc;
+	}
+	[tabs] .active {
+		background: #80DFFF;
+		cursor: pointer;
+		border-right:1px;
+	}
+	[tabs] a {
+		text-decoration: none;
+	}
+	[tabs] .bh {
+		background: #80DFFF;
+		cursor: pointer;
+	}
+</style>	
+    <title>Bresenham</title>
+  </head>
+  <body bgcolor=#C0FFE0>
+		<div tabs><a href="bresenham.html" class="bh"><div class="active">Bresenham</div></a><a href="barcode.html"><div >2D-Barcode</div></a></div>
+    <h1>Bresenham Algorithm</h1>
+    <table><tr><td>
+    <h2>Rasterizing curves</h2>
+	<h2><img src="bresenham.gif" border="0" align=left></h2>
+	</td><td></td></tr>
+	<tr><td>
+      <canvas id="draw" width="800px" height="600px" style="background-color:white; border:1px solid silver; cursor:crosshair;"><br>Browser doesn't support javascript and canvas.<br></canvas>
+      <center id="remark">You can try the Bresenham algorithm in  <a href="bresenham.js">javascript</a> online on this scratchpad.</center>
+    </td><td>
+    <form name="curve">
+    <h3>Curve</h3>
+      <p><input type="radio" name="curve" value="0" title="straight line" checked>Line</p>
+      <p><input type="radio" name="curve" value="1" title="center, radius">Circle</p>
+      <p><input type="radio" name="curve" value="2" title="rectangular corners">Ellipse</p>
+      <p><input type="radio" name="curve" value="3" title="rectangular corners plus rotation">Rotated ellipse</p>
+      <p><input type="radio" name="curve" value="4" title="line plus corner point">Quadratic B&eacute;zier</p>
+      <p><input type="radio" name="curve" value="5" title="hold midpoint and move horizontally for weight">Quadratic rational B&eacute;zier</p>
+      <p><input type="radio" name="curve" value="6" title="draw two lines">Cubic B&eacute;zier</p>
+    <h3>Type</h3>
+      <p><input type="radio" name="alias" value="0" onClick="plotCurve()" title="fast black &amp; white curve" checked>Black & white<br></p>
+      <p><input type="radio" name="alias" value="1" onClick="plotCurve()" title="Smooth curve, remove pixelation">Anti-aliasing<br></p>
+      <p><input type="radio" name="alias" value="2" onClick="plotCurve()" title="Line thickness, experimental">Width&nbsp;&nbsp;&nbsp;
+         <input type="text" name="width" value="3.0" size="1" readonly title="pixels">
+         <input type="button" value="&Lambda;" title="increase thickness" onclick="form.width.value='  '+Math.min(eval(form.width.value)+0.5,9.5);plotCurve()">
+         <input type="button" value="V" title="decrease thickness" onclick="form.width.value='  '+Math.max(eval(form.width.value)-0.5,1);plotCurve()"><br></p>
+    <h3>Zoom</h3>
+      <p>
+        <select name="zoom" onchange="plotCurve()" title="magnification">
+          <option>1</option>
+          <option>2</option>
+          <option selected>3</option>
+          <option>4</option>
+        </select>
+      </p>
+    <h3>Points</h3>
+      <p id="p1">P1:</p>
+      <p id="p2">P2:</p>
+      <p id="p3">P3:</p>
+      <p id="p4">P4:</p>
+    <h3>Position</h3>
+    <p><center id="pos">0, 0</center></p>
+    </form>
+    </td></tr></table>
+    <script  type="text/javascript">
+      function getMousePos(canvas, evt) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+          x: parseInt((evt.clientX-rect.left)/zoom),
+          y: parseInt((evt.clientY-rect.top)/zoom)
+        };
+      }
+      function setPixel(x, y) {
+        context.fillStyle = 'black';
+        context.fillRect(x*zoom,y*zoom,zoom,zoom);
+      }
+      function setPixelAA(x, y, i) {
+        i = 1-i/255;
+        if (context.getImageData(x*zoom,y*zoom,1,1).data[3] > i) return;
+        context.fillStyle = 'rgba(0,0,0,'+i+')';
+        context.fillRect(x*zoom,y*zoom,zoom,zoom);
+      }
+      function plotCurve() {
+         if (P1 == null) return;
+         var i, wd = eval(document.curve.width.value);
+         zoom = document.curve.zoom.options.selectedIndex+1;
+         for (i = 0; i < document.curve.curve.length; i++)
+           if (document.curve.curve[i].checked) break;
+         i = eval(document.curve.curve[i].value)*3;
+         if (document.curve.alias[1].checked) i++;
+         if (document.curve.alias[2].checked) i += 2;
+         canvas.width = canvas.width; // clr canvas
+         context.fillStyle = "#ffffff";
+         context.fill();
+
+         switch (i) {
+          case 0:
+            plotLine(P1.x,P1.y,P2.x,P2.y); break;
+          case 1:
+            plotLineAA(P1.x,P1.y,P2.x,P2.y); break;
+          case 2:
+            plotLineWidth(P1.x,P1.y,P2.x,P2.y,wd); break;
+          case 3:
+            plotCircle(P1.x,P1.y,Math.abs(P1.x-P2.x)); break;
+          case 4:
+            plotCircleAA(P1.x,P1.y,Math.abs(P1.x-P2.x)); break;
+          case 5:
+            i = Math.abs(P1.x-P2.x); // cheating: no plotCircleWidth() exists
+            plotEllipseRectWidth(P1.x-i,P1.y-i,P1.x+i,P1.y+i,wd); break;
+          case 6:
+            plotEllipseRect(P1.x,P1.y,P2.x,P2.y); break;
+          case 7:
+            plotEllipseRectAA(P1.x,P1.y,P2.x,P2.y); break;
+          case 8:
+            plotEllipseRectWidth(P1.x,P1.y,P2.x,P2.y,wd); break;
+          case 9:
+            plotRotatedEllipse((P2.x+P1.x)>>1,(P2.y+P1.y)>>1,Math.abs(P1.x-P2.x)>>1,Math.abs(P1.y-P2.y)>>1,
+                              point == 1 ? 0 : Math.atan2(2*P3.y-P1.y-P2.y,2*P3.x-P1.x-P2.x));
+            break;
+          case 10:
+            plotRotatedEllipseAA((P2.x+P1.x)>>1,(P2.y+P1.y)>>1,Math.abs(P1.x-P2.x)>>1,Math.abs(P1.y-P2.y)>>1,
+                              point == 1 ? 0 : Math.atan2(2*P3.y-P1.y-P2.y,2*P3.x-P1.x-P2.x));
+            break;
+          case 11:
+            plotRotatedEllipseWidth((P2.x+P1.x)>>1,(P2.y+P1.y)>>1,Math.abs(P1.x-P2.x)>>1,Math.abs(P1.y-P2.y)>>1,
+                              point == 1 ? 0 : Math.atan2(2*P3.y-P1.y-P2.y,2*P3.x-P1.x-P2.x),wd);
+            break;
+          case 12:
+            plotQuadBezier(P1.x,P1.y,P3.x,P3.y,P2.x,P2.y); break;
+          case 13:
+            plotQuadBezierAA(P1.x,P1.y,P3.x,P3.y,P2.x,P2.y); break;
+          case 14:  // cheating: no plotQuadBezierWidth() exists
+            plotQuadRationalBezierWidth(P1.x,P1.y,P3.x,P3.y,P2.x,P2.y,1,wd); break;
+          case 15:
+            plotQuadRationalBezier(P1.x,P1.y,P3.x,P3.y,P2.x,P2.y,Math.abs(1+(P4.x-P3.x)/100)); break;
+          case 16:
+            plotQuadRationalBezierAA(P1.x,P1.y,P3.x,P3.y,P2.x,P2.y,Math.abs(1+(P4.x-P3.x)/100)); break;
+          case 17:
+            plotQuadRationalBezierWidth(P1.x,P1.y,P3.x,P3.y,P2.x,P2.y,Math.abs(1+(P4.x-P3.x)/100),wd); break;
+          case 18:
+            plotCubicBezier(P1.x,P1.y,P4.x,P4.y,P3.x,P3.y,P2.x,P2.y); break;
+          case 19:
+            plotCubicBezierAA(P1.x,P1.y,P4.x,P4.y,P3.x,P3.y,P2.x,P2.y); break;
+          case 20:
+            plotCubicBezierWidth(P1.x,P1.y,P4.x,P4.y,P3.x,P3.y,P2.x,P2.y, wd); break;
+          }
+         context.fillStyle = 'red';
+         context.fillRect(P1.x*zoom,P1.y*zoom,zoom,zoom);
+         context.fillRect(P2.x*zoom,P2.y*zoom,zoom,zoom);
+         context.fillRect(P3.x*zoom,P3.y*zoom,zoom,zoom);
+         context.fillRect(P4.x*zoom,P4.y*zoom,zoom,zoom);
+      }
+      var canvas = document.getElementById('draw');
+      var context = canvas.getContext('2d');
+      var zoom = 3;
+      var point = 0; // number of current input point
+      var P1, P2, P3, P4;
+
+      canvas.addEventListener('mousedown', function(evt) {
+        var mousePos = getMousePos(canvas, evt), i;
+        evt.preventDefault(); // prevent textcursor
+        if (point++ == 0) P1 = mousePos;
+        document.getElementById('p'+point).innerHTML = 'P'+point+': ' + mousePos.x + ', ' + mousePos.y;
+        for (i = point+1; i <= 4; i++)
+          document.getElementById('p'+i).innerHTML = 'P'+i+': ';
+      }, false);
+      canvas.addEventListener('mouseup', function(evt) {
+        var i;
+        for (i = 0; i < document.curve.curve.length; i++)
+          if (document.curve.curve[i].checked) break;
+        i = eval(document.curve.curve[i].value);
+        if (point++ > 2 || i < 3) point = 0; // final curve
+      }, false);
+
+      canvas.addEventListener('mousemove', function(evt) {
+        var mousePos = getMousePos(canvas, evt), i = point+1;
+        document.getElementById('pos').innerHTML = mousePos.x + ', ' + mousePos.y;
+        if (point == 0) return;
+        document.getElementById('p'+i).innerHTML = 'P'+i+': ' + mousePos.x + ', ' + mousePos.y;
+        if (point < 2) P2 = mousePos;
+        if (point < 3) P3 = mousePos;
+        P4 = mousePos;
+        plotCurve();
+      }, false);
+    </script>
+ <br/>
+  <hr noshade size="1"/>
+  <p>Copyright © Alois Zingl, Vienna, Austria, Email: <script type="text/javascript"> var r = "&#46at";
+     document.write('<a title="Send mail!" id="[at]" href="m' + 'ail'+ Psns('easyfilter') + "chello" + r + '"><img align="absbottom" src="email.gif" border="0"></a>');
+     </script><noscript><img align="absbottom" src="email.gif" border="0"></noscript>, last update May 2020.</p>
+       
+  </body>
+</html>

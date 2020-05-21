@@ -9,12 +9,49 @@
   <script type="text/javascript" src="kanji.js"></script> <!-- unicode conversion string, omit if kanji encoding in QRCode isn't needed -->
   <link rel="Stylesheet" type="text/css" href="barcode.css" />
   <link rel="SHORTCUT ICON" href="favicon.ico" />
+  <style>
+  
+	[tabs] {
+		display: flex;
+		padding: 0px;
+		font-size: 1em;
+		padding: 5px 20px;
+		width: 700px;
+	}
+	[tabs] > * {
+		flex-grow:1;
+		font-size: 1.5em;
+		padding: 10px 20px;
+		cursor: pointer;
+		border: 1px solid #aaa;
+		text-align: center;
+		margin-top: -1px;
+		border-right:1px;
+		background: #eff;
+	}
+	[tabs] > :hover {
+		color: #036;
+		background: #ccc;
+	}
+	[tabs] .active {
+		background: #80DFFF;
+		cursor: auto;
+		border: 1px solid #aaa;
+	}
+	[tabs] a {
+		text-decoration: none;
+	}
+  </style>
   <script type="text/javascript">
 	//<![CDATA[
 	  window.onload = function() {    
 		draw();
 		ticktack(0);
+		with (document.getElementById("[at]").firstChild.parentNode) {
+			setAttribute("href", getAttribute("href").replace("qay", "@")); 
+		}
 	  }
+		function Psns(ml) { return 'to:'+ ml + 'qay'; }
 	  var s = 1; // scale
 	  function ticktack(i) { // date/time as animated barcode background image
 		if ((i&7)==0) {
@@ -112,6 +149,7 @@
 </head>
 
 <body>
+		<div tabs class="bc"><a href="bresenham.html"><div>Bresenham</div></a><div  class="active">2D-Barcode</div></div>
   <div style="position:absolute;z-index:-1;">
 	<svg id=back1>
 	  <g style="fill:#b4f2d4;"><rect /></g>
@@ -125,7 +163,7 @@
 	</svg>
   </div>
   <table>
-	<tr>
+ 	<tr>
 	  <td>
 		<h1>2D Barcode</h1>
 		<!--<h2><a href="https://github.com/zingl/2D-Barcode"><img width="200" src="barcode.gif" style="opacity: 0.6;" alt="logo" /></a></h2>-->
@@ -244,7 +282,7 @@
   <p><b style="color:green">+</b> Available for office programs Excel, Access and Calc.</p>
   <p><b style="color:green">+</b> Automatic mode encoding and barcode size selection.</p>
   <p><b style="color:green">+</b> Algorithm could be easily adapted to individual requirements.</p>
-  <p><b style="color:green">+</b> Free and open-source software program.</p>
+  <p><b style="color:green">+</b> Free and open-source software program (MIT license).</p>
   <p><b style="color:green">+</b> size optimization for mixed data types in one symbol.</p>
   <p><b style="color:darkred">&#8211;</b> no handling of special codes like 
 	<a href= "http://en.wikipedia.org/wiki/GS1-128">FNC1</a> or <a href= "http://en.wikipedia.org/wiki/Extended_Channel_Interpretation">ECI</a>.</p>
@@ -255,7 +293,7 @@
   <p>Adaptable: modify or convert simple source code to your own desire.</p>
 
   <h3 style="text-align:left;text-indent:40px;color:navy">Download</h3>
-  <p>The barcode program is free and open source software.</p>
+  <p>The barcode program is open source software (MIT license).</p>
   <p>The algorithm is available as <b>Jasvascript</b>: <a href="barcode.js">barcode.js</a>.</p>
   <p>For <a href="http://office.microsoft.com/">MS Office</a> it is available as <b>Excel</b>: <a href="https://github.com/zingl/2D-Barcode/raw/master/barcode.xlsm">barcode.xlsm</a> and <b>Access</b>: <a href="https://github.com/zingl/2D-Barcode/raw/master/barcode.accdb">barcode.accdb</a>.</p>
   <p>And for <a href="https://www.libreoffice.org/">Open/LibreOffice</a> it is available as <b>Calc</b>: <a href="https://github.com/zingl/2D-Barcode/raw/master/barcode.ods">barcode.ods</a>.</p>
@@ -288,9 +326,15 @@
 
   <h4>Programs</h4>
   <p><a href="http://bwipp.terryburton.co.uk/">Barcode Writer in Pure PostScript</a></p>
-  <p><a href="http://www.okapibarcode.org.uk/">Zint/OkapiBarcode Barcode Generator</a></p>
+  <p><a href="http://zint.org.uk/">Zint/OkapiBarcode Barcode Generator</a></p>
 
   <hr noshade="noshade" size="1" />
-  <p>Copyright &#169; Alois Zingl, Vienna, Austria</p>
+  <p>Copyright &#169; Alois Zingl, Vienna, Austria, Email: <script type="text/javascript">
+	//<![CDATA[
+	var r = "&#46at";
+	document.write('<a title="Send mail!" id="[at]" href="m' + 'ail'+ Psns('easyfilter') + 
+		"chello" + r + '"><img align="absbottom" src="email.gif" border="0"><\/a>');
+	//]]>
+  </script><noscript><img align="absbottom" src="email.gif" /></noscript>, last update Mai 2020.</p>
 </body>
 </html>
