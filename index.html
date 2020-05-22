@@ -13,6 +13,8 @@
   
 	[tabs] {
 		display: flex;
+		position: fixed;
+		z-index:2;
 		padding: 0px;
 		font-size: 1em;
 		padding: 5px 20px;
@@ -54,17 +56,15 @@
 		function Psns(ml) { return 'to:'+ ml + 'qay'; }
 	  var s = 1; // scale
 	  function ticktack(i) { // date/time as animated barcode background image
-		if ((i&7)==0) {
-			var s = Math.min(800,document.body.clientWidth)/12, bg = i?back2:back1;
-			bg.setAttribute('width', s*12);
-			bg.setAttribute('height', s*36);
-			bg = bg.firstElementChild;
-			bg.replaceChild(toPath(toMatrix(datamatrix, Date().substr(0,24), true)),bg.firstElementChild);
-			bg.setAttribute('transform','scale('+s+') translate(0,36) rotate(-90)');
-		}
-		back1.setAttribute('opacity', (7-Math.abs(i-8))/4);
-		back2.setAttribute('opacity', (Math.abs(i-8)-1)/4);
-		setTimeout(ticktack,i&7?32:1000-new Date().getMilliseconds(),15&i+1);
+		var s = Math.min(800,document.body.clientWidth)/12, bg = i?back2:back1;
+		bg.setAttribute('width', s*12);
+		bg.setAttribute('height', s*36);
+		bg = bg.firstElementChild;
+		bg.replaceChild(toPath(toMatrix(datamatrix, Date().substr(0,24), true)),bg.firstElementChild);
+		bg.setAttribute('transform','scale('+s+') translate(0,37) rotate(-90)');
+		back1.parentNode.style.opacity = 1-i;
+		back2.parentNode.style.opacity = i;
+		setTimeout(ticktack,1000,1-i);
 	  }
 	  function getText() { // encode chars >127 for reader conformity
 			return unescape(encodeURIComponent(form.text.value)); // unicode to UTF-8
@@ -150,13 +150,13 @@
 
 <body>
 		<div tabs class="bc"><a href="bresenham.html"><div>Bresenham</div></a><div  class="active">2D-Barcode</div></div>
-  <div style="position:absolute;z-index:-1;">
+  <div style="position:absolute;z-index:-1;opacity:0;transition: opacity 0.5s ease-in-out;">
 	<svg id=back1>
 	  <g style="fill:#b4f2d4;"><rect /></g>
 	  <desc>date/time animated barcode background</desc>
 	</svg>
   </div>
-  <div style="position:absolute;z-index:-1;">
+  <div style="position:absolute;z-index:-1;opacity:0;transition: opacity 0.5s ease-in-out;">
 	<svg id=back2>
 	  <g style="fill:#b4f2d4;"><rect /></g>
 	  <desc>date/time animated barcode background</desc>
@@ -167,6 +167,11 @@
 	  <td>
 		<h1>2D Barcode</h1>
 		<!--<h2><a href="https://github.com/zingl/2D-Barcode"><img width="200" src="barcode.gif" style="opacity: 0.6;" alt="logo" /></a></h2>-->
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+		<h2>&spnb;</h2>
 	  </td>
 	</tr>
 	<tr>
@@ -291,6 +296,7 @@
   <p>Universal: runs on every browser, operating system or platform.</p>
   <p>Flexible: outputs vector or pixel images in adjustable design.</p>
   <p>Adaptable: modify or convert simple source code to your own desire.</p>
+  <p>Compact: only about 250 lines of code needed for one barcode.</p>
 
   <h3 style="text-align:left;text-indent:40px;color:navy">Download</h3>
   <p>The barcode program is open source software (MIT license).</p>

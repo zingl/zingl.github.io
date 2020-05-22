@@ -14,6 +14,8 @@ window.onload = function() { 	with (document.getElementById("[at]").firstChild.p
 
 	[tabs] {
 		display: flex;
+		position: fixed;
+		z-index:2;
 		padding: 0px;
 		font-size: 1em;
 		padding: 5px 20px;
@@ -46,7 +48,12 @@ window.onload = function() { 	with (document.getElementById("[at]").firstChild.p
   </head>
   <body style="font-family:Arial,sans-serif" bgcolor="#C0FFE0">
 		<div tabs><div class="active">Bresenham</div><a href="index.html"><div >2D-Barcode</div></a></div>
-<table style="max-width:700px;"><tbody><tr><td>
+<table style="max-width:700px;"><tbody>	<tr>
+	  <td>
+		<h3></h3>
+	  </td>
+	</tr>
+<tr><td>
     <h2><br>The Beauty of Bresenham's Algorithm</h2>
     <p style="text-align:center">A simple implementation to plot lines, circles, ellipses and B&eacute;zier curves.<br><br></p>
       <h2><img src="bresenham.gif" border="0" align=center></h2>
