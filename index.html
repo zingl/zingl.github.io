@@ -62,6 +62,8 @@
 		bg = bg.firstElementChild;
 		bg.replaceChild(toPath(toMatrix(datamatrix, Date().substr(0,24), true)),bg.firstElementChild);
 		bg.setAttribute('transform','scale('+s+') translate(0,37) rotate(-90)');
+		back1.parentNode.style.transitionTimingFunction = "cubic-bezier(0.5,"+(1-i)+",1,1)";
+		back2.parentNode.style.transitionTimingFunction = "cubic-bezier(0.5,"+i+",1,1)";
 		back1.parentNode.style.opacity = 1-i;
 		back2.parentNode.style.opacity = i;
 		setTimeout(ticktack,1000,1-i);
@@ -173,7 +175,7 @@
 	</tr>
 	<tr>
 	  <td>
-		<h2>&spnb;</h2>
+		<h2> </h2>
 	  </td>
 	</tr>
 	<tr>
@@ -238,13 +240,13 @@
 		<p id="tqr" style="text-align: center;">QR barcode</p>
 	  </td>
 	  <td valign="top">
-		<h3 style="text-align:left;text-indent:40px;">QR</h3>
+		<h3 style="text-align:left;text-indent:40px;">QR Code</h3>
 		<form name="qr">
 		  <p>quality level:</p>
-		  <p><label><input type="radio" name="qual" value="L" title="low" checked="checked" onclick="draw_qr()" /> L &nbsp; 7%</label></p>
-		  <p><label><input type="radio" name="qual" value="M" title="medium" onclick="draw_qr()" /> M 15%</label></p>
-		  <p><label><input type="radio" name="qual" value="Q" title="quartile" onclick="draw_qr()" /> Q 25%</label></p>
-		  <p><label><input type="radio" name="qual" value="H" title="high" onclick="draw_qr()" /> H 30%</label></p>
+		  <p><label><input type="radio" name="qual" value="L" title="low" checked="checked" onclick="draw_qr()" /> L &nbsp; 7% (low)</label></p>
+		  <p><label><input type="radio" name="qual" value="M" title="medium" onclick="draw_qr()" /> M 15% (medium)</label></p>
+		  <p><label><input type="radio" name="qual" value="Q" title="quartile" onclick="draw_qr()" /> Q 25% (quartile)</label></p>
+		  <p><label><input type="radio" name="qual" value="H" title="high" onclick="draw_qr()" /> H 30% (high)</label></p>
 		  <p><br /></p>
 		  <p><label><input type="checkbox" name="micro" title="micro QR" onclick="draw_qr()"  /> micro QR</label></p>
 		</form>
@@ -289,8 +291,9 @@
   <p><b style="color:green">+</b> Available for office programs Excel, Access and Calc.</p>
   <p><b style="color:green">+</b> Automatic mode encoding and barcode size selection.</p>
   <p><b style="color:green">+</b> Algorithm could be easily adapted to individual requirements.</p>
+  <p><b style="color:green">+</b> Encodes all unicode chars in utf-8.</p>
   <p><b style="color:green">+</b> Free and open-source software program (MIT license).</p>
-  <p><b style="color:green">+</b> size optimization for mixed data types in one symbol.</p>
+  <p><b style="color:green">+</b> Smallest possible barcode symbol for all kind of data.</p>
   <p><b style="color:darkred">&#8211;</b> no handling of special codes like 
 	<a href= "http://en.wikipedia.org/wiki/GS1-128">FNC1</a>, <a href= "http://en.wikipedia.org/wiki/Extended_Channel_Interpretation">ECI</a> or structure append.</p>
 
@@ -299,7 +302,7 @@
   <p><i>Flexible:</i> outputs vector or pixel images in adjustable design.</p>
   <p><i>Adaptable:</i> modify or convert simple source code to your own desire.</p>
 
-  <h3 style="text-align:left;text-indent:40px;color:navy">Download</h3>
+  <h3 style="text-align:left;text-indent:40px;color:navy">Download V20.30</h3>
   <p>The barcode program is open source software (MIT license).</p>
   <p>The algorithm is available as <b>Jasvascript</b>: <a href="barcode.js">barcode.js</a>.</p>
   <p>For <a href="http://office.microsoft.com/">MS Office</a> it is available as <b>Excel</b>: <a href="https://github.com/zingl/2D-Barcode/raw/master/barcode.xlsm">barcode.xlsm</a> and <b>Access</b>: <a href="https://github.com/zingl/2D-Barcode/raw/master/barcode.accdb">barcode.accdb</a>.</p>
@@ -342,6 +345,6 @@
 	document.write('<a title="Send mail!" id="[at]" href="m' + 'ail'+ Psns('easyfilter') + 
 		"chello" + r + '"><img align="absbottom" src="email.gif" border="0"><\/a>');
 	//]]>
-  </script><noscript><img align="absbottom" src="email.gif" /></noscript>, last update June 2020.</p>
+  </script><noscript><img align="absbottom" src="email.gif" /></noscript>, last update July 2020.</p>
 </body>
 </html>
