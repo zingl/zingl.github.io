@@ -137,7 +137,7 @@
 		cvs.width = cvs.height = 700; ctx.fillStyle = 'white';
 		if (form.bg.checked) ctx.fillRect(0,0,700,700); // white BG
 		var b = form.bg.checked ? 20 : 0; // padding
-		var i = aztec(function(x,y) { ctx.rect(x*s+b,y*s+b,s,s); }, getText(),isNaN(fazt.sec.value)?23:fazt.sec.value,0); // setCell of array
+		var i = aztec(function(x,y) { ctx.rect(x*s+b,y*s+b,s,s); }, getText(),isNaN(fazt.sec.value)?23:fazt.sec.value); // setCell of array
 		if (i == 0) { alert("Message too long for Aztec!"); return; }
 		tazt.innerHTML = 'Aztec '+(i < 12 ? 'rune ' : i < 28 ? 'compact ' : '')+i+'x'+i+' cells (PNG)';
 		ctx.fillStyle = "#000"; ctx.fill(); 
