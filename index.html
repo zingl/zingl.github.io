@@ -137,7 +137,7 @@
 		cvs.width = cvs.height = 700; ctx.fillStyle = 'white';
 		if (form.bg.checked) ctx.fillRect(0,0,700,700); // white BG
 		var b = form.bg.checked ? 20 : 0; // padding
-		var i = aztec(function(x,y) { ctx.rect(x*s+b,y*s+b,s,s); }, getText(),isNaN(fazt.sec.value)?23:fazt.sec.value); // setCell of array
+		var i = aztec(function(x,y) { ctx.rect(x*s+b,y*s+b,s,s); }, getText(),isNaN(fazt.sec.value)?23:fazt.sec.value,0); // setCell of array
 		if (i == 0) { alert("Message too long for Aztec!"); return; }
 		tazt.innerHTML = 'Aztec '+(i < 12 ? 'rune ' : i < 28 ? 'compact ' : '')+i+'x'+i+' cells (PNG)';
 		ctx.fillStyle = "#000"; ctx.fill(); 
@@ -302,11 +302,16 @@
   <p><i>Flexible:</i> outputs vector or pixel images in adjustable design.</p>
   <p><i>Adaptable:</i> modify or convert simple source code to your own desire.</p>
 
-  <h3 style="text-align:left;text-indent:40px;color:navy">Download V20.30</h3>
+  <h3 style="text-align:left;text-indent:40px;color:navy">Download V2.0</h3>
   <p>The barcode program is open source software (MIT license).</p>
   <p>The algorithm is available as <b>Jasvascript</b>: <a href="barcode.js">barcode.js</a>.</p>
-  <p>For <a href="http://office.microsoft.com/">MS Office</a> it is available as <b>Excel</b>: <a href="https://github.com/zingl/2D-Barcode/raw/master/barcode.xlsm">barcode.xlsm</a> and <b>Access</b>: <a href="https://github.com/zingl/2D-Barcode/raw/master/barcode.accdb">barcode.accdb</a>.</p>
-  <p>And for <a href="https://www.libreoffice.org/">Open/LibreOffice</a> it is available as <b>Calc</b>: <a href="https://github.com/zingl/2D-Barcode/raw/master/barcode.ods">barcode.ods</a>.</p>
+  <p>For <a href="http://office.microsoft.com/">MS Office</a> it is available as <b>Excel</b>: 
+	<a href="https://github.com/zingl/2D-Barcode/raw/master/barcode.xlsm">barcode.xlsm</a> and <b>Access</b>: 
+	<a href="https://github.com/zingl/2D-Barcode/raw/master/barcode.accdb">barcode.accdb</a>.</p>
+  <p>And for <a href="https://www.libreoffice.org/">Open/LibreOffice</a> it is available as <b>Calc</b>
+	template: <a href="https://github.com/zingl/2D-Barcode/raw/master/barcode.oxt">barcode.oxt</a> 
+	with example sheet <a href="https://github.com/zingl/2D-Barcode/raw/master/barcode.ods">barcode.ods</a>.</p>
+  <p>Install the template in calc by a double click or: Tools > Extension Manager > Add. </p>
   <p>Go do something cool with it.</p>
 
   <h3 style="text-align:left;text-indent:40px;color:navy;">Information about barcodes</h3>
