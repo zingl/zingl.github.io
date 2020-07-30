@@ -19,16 +19,17 @@
 		font-size: 1em;
 		padding: 5px 20px;
 		width: 700px;
+		border-right:0px;
 	}
 	[tabs] > * {
-		flex-grow:1;
+		flex:1;
 		font-size: 1.5em;
 		padding: 10px 20px;
 		cursor: pointer;
 		border: 1px solid #aaa;
 		text-align: center;
 		margin-top: -1px;
-		border-right:1px;
+		border-right: 1px solid #aaa;
 		background: #eff;
 	}
 	[tabs] > :hover {
@@ -38,7 +39,8 @@
 	[tabs] .active {
 		background: #80DFFF;
 		cursor: auto;
-		border: 1px solid #aaa;
+		border-right:0px;
+		border-left:0px;
 	}
 	[tabs] a {
 		text-decoration: none;
@@ -153,7 +155,8 @@
 </head>
 
 <body>
-		<div tabs class="bc"><a href="bresenham.html"><div>Bresenham</div></a><div  class="active">2D-Barcode</div></div>
+		<div tabs class="bc"><a href="bresenham.html"><div>Bresenham</div></a>
+		<div  class="active">Barcode</div><a href="blurring.html"><div >Blurring</div></a></div>
   <div style="position:absolute;z-index:-1;opacity:0;transition: opacity 0.5s ease-in-out;">
 	<svg id=back1>
 	  <g style="fill:#b4f2d4;"><rect /></g>
@@ -303,15 +306,15 @@
   <p><i>Adaptable:</i> modify or convert simple source code to your own desire.</p>
 
   <h3 style="text-align:left;text-indent:40px;color:navy">Download V2.0</h3>
-  <p>The barcode program is open source software (MIT license).</p>
+  <p>The barcode program is open source software at <a href="https://github.com/zingl/2D-Barcode/">GitHub</a> (MIT license).</p>
   <p>The algorithm is available as <b>Jasvascript</b>: <a href="barcode.js">barcode.js</a>.</p>
   <p>For <a href="http://office.microsoft.com/">MS Office</a> it is available as <b>Excel</b>: 
 	<a href="https://github.com/zingl/2D-Barcode/raw/master/barcode.xlsm">barcode.xlsm</a> and <b>Access</b>: 
 	<a href="https://github.com/zingl/2D-Barcode/raw/master/barcode.accdb">barcode.accdb</a>.</p>
   <p>And for <a href="https://www.libreoffice.org/">Open/LibreOffice</a> it is available as <b>Calc</b>
 	template: <a href="https://github.com/zingl/2D-Barcode/raw/master/barcode.oxt">barcode.oxt</a> 
-	with example sheet <a href="https://github.com/zingl/2D-Barcode/raw/master/barcode.ods">barcode.ods</a>.</p>
-  <p>Install the template in calc by a double click or: Tools > Extension Manager > Add. </p>
+	and example sheet: <a href="https://github.com/zingl/2D-Barcode/raw/master/barcode.ods">barcode.ods</a>.</p>
+  <p>Install the template in Calc by opening it or: Tools > Extension Manager > Add </p>
   <p>Go do something cool with it.</p>
 
   <h3 style="text-align:left;text-indent:40px;color:navy;">Information about barcodes</h3>

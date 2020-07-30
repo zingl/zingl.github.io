@@ -20,10 +20,11 @@
 		font-size: 1em;
 		padding: 5px 20px;
 		width: 700px;
+		border-right:0px;
 	}
 	[tabs] > * {
 		background: #80DFFF;
-		flex-grow:1;
+		flex:1;
 		font-size: 1.5em;
 		padding: 10px 20px;
 		cursor: pointer;
@@ -39,7 +40,7 @@
 	[tabs] .active {
 		background: #80DFFF;
 		cursor: pointer;
-		border-right:1px;
+		border-right:0px;
 	}
 	[tabs] a {
 		text-decoration: none;
@@ -47,12 +48,14 @@
 	[tabs] .bh {
 		background: #80DFFF;
 		cursor: pointer;
+		border-right:0px;
 	}
 </style>	
     <title>Bresenham</title>
   </head>
   <body bgcolor=#C0FFE0>
-		<div tabs><a href="bresenham.html" class="bh"><div class="active">Bresenham</div></a><a href="index.html"><div >2D-Barcode</div></a></div>
+		<div tabs><a href="bresenham.html" class="bh"><div class="active">Bresenham</div></a><a href="index.html"><div >Barcode</div></a>
+		<a href="blurring.html" style="border-left: 0px"><div >Blurring</div></a></div>
     <h1>Bresenham Algorithm</h1>
     <table><tr><td>
     <h2>Rasterizing curves</h2>

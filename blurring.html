@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta charset="utf-8" />
+  <meta name="keywords" content= "bar code, barcode, 2D, symbol, data matrix, QR, micro QR, Aztec, Code 128, program, open source, public domain, free software, SVG, GIF, javascript" />
+
+  <link rel="Stylesheet" type="text/css" href="barcode.css" />
+  <link rel="SHORTCUT ICON" href="favicon.ico" />
+  <style>
+  
+    [tabs] {
+        display: flex;
+        position: fixed;
+        z-index:2;
+        padding: 0px;
+        font-size: 1em;
+        padding: 5px 20px;
+        width: 700px;
+    }
+    [tabs] > * {
+        flex:1;
+        font-size: 1.5em;
+        padding: 10px 20px;
+        cursor: pointer;
+        border: 1px solid #aaa;
+        text-align: center;
+        margin-top: -1px;
+        border-right:1px;
+        background: #eff;
+    }
+    [tabs] > :hover {
+        color: #036;
+        background: #ccc;
+    }
+    [tabs] .active {
+        background: #80DFFF;
+        cursor: auto;
+        border: 1px solid #aaa;
+    }
+    [tabs] a {
+        text-decoration: none;
+    }
+  </style>
+
+<script language="JavaScript">
+function Psns(ml) { return 'to:'+ ml + 'qay'; }
+window.onload = function() {    with (document.getElementById("[at]").firstChild.parentNode) {
+  setAttribute("href", getAttribute("href").replace("qay", "@")); } }
+</script>
+    <title>Blurring</title>
+</head>
+
+<body>
+        <div tabs class="bc"><a href="bresenham.html"><div>Bresenham</div></a><a href="index.html"><div>Barcode</div></a>
+        <div  class="active">Blurring</div></div>
+  <table style="max-width:740px;">
+    <tr>
+      <td>
+        <h1></h1>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h2> </h2>
+      </td>
+    </tr>
+    <tr>
+      <td>
+<h2>Efficient Gaussian Blur Algorithm</h2>
+<p>This page presents a fast Gausian blur calculation. Details of the algorithm can be read below.</p>
+<p> This Gaussian Blur source code has the benefits of:
+<ul><li> <i>simple:</i> very easy blur calculation
+   </li><li> <i>fast:</i> no run time dependency on blur radius 
+   </li><li> <i>accurate:</i> correct blur calculation of pixel near the boarder 
+   </li></ul></p>
+
+
+    <h3>Extended Binomial Filter for Fast Gaussian Blur</h3>
+ 
+<p>The extended binomial filter algorithm is a very simple and fast Gaussian blur algorithm where the run time per pixel is independent of the blur radius. </p>
+<p>The Gaussian blur is a widely used filter for many effects, especially for image processing. 
+   It is important to have a fast and easy algorithm for computation. The runtime of most algorithms for
+   calculating the Gaussian blur like the binomial sequence is proportional to the blur radius <i>r</i>.</p>
+<p>The extended binomial filter is an approximation of the normal binomial filter with constant complexity O(1), 
+   making the runtime per pixel independent of the blur radius. 
+   The accuracy of the approximation is chosen by the approximation degree. </p>
+
+<h4>Key Features</h4>
+  <ul>
+  <li>Constant complexity O(1) per pixel, independent of the blur radius.</li>
+  <li>Minimum pixel readouts, also independent of the blur radius.</li>
+  <li>Computation as simple (and fast) as box blur.</li>
+  <li>Adequate approximation selectable to the desired accuracy. </li>
+</ul>
+
+<h4>Paper</h4>
+<p>A detailed description of the algorithm is available in PDF: <u><a href="blurring.pdf">blurring.pdf</a></u>.</p>
+
+<h4>Sample implementation</h4>
+<pre>
+  <b>void</b> <span style="color:darkblue">blur</span>(<b>int</b> radius) {<span style="color:green"> // first degree approximation </span>
+    <b>int</b> buffer[radius]; <span style="color:green">// pixel buffer </span>
+    
+    <b>for</b> (<b>int</b> x = x_start; x &lt; x_end; ++x) { <span style="color:green">// vertical blur</span>
+      <b>long</b> dif = 0, sum = 0;
+      <b>for</b> (<b>int</b> y = y_start-2*radius; y &lt; y_end; ++y) {
+        sum += dif;            <span style="color:green">// accumulate pixel blur</span>
+        dif += <span style="color:darkblue">getPixel</span>(x, y+radius);   <span style="color:green">// next pixel</span>
+        <b>if</b> (y &gt;= y_start) {
+          dif += buffer[y%radius];  <span style="color:green">// sum up differences: +1, -2, +1</span>
+          <span style="color:darkblue">setPixel</span>(x, y, sum/(radius*radius)); <span style="color:green">// set blurred pixel</span>
+        } 
+        <b>if</b> (y+radius &gt;= y_start) {
+          <b>int</b> p = <span style="color:darkblue">getPixel</span>(x,y);
+          buffer[y%radius] = p;    <span style="color:green">// buffer pixel</span>
+          dif -= 2*p;
+        }
+      } // y
+    } // x
+
+    <b>for</b> (y = y_start; y &lt; y_end; ++y) { <span style="color:green">// horizontal blur...</span>
+      dif = 0; sum = 0;
+      <b>for</b> (x = x_start-2*radius; x &lt; x_end; ++x) {
+        sum += dif;              <span style="color:green">// accumulate pixel blur</span>
+        dif += <span style="color:darkblue">getPixel</span>(x+radius, y);  <span style="color:green">// next pixel</span>
+        <b>if</b> (x &gt;= x_start) {
+          dif += buffer[x%radius];  <span style="color:green">// sum up differences: +1, -2, +1</span>
+          <span style="color:darkblue">setPixel</span>(x, y, sum/(radius*radius)); <span style="color:green">// set blurred pixel</span>
+        } 
+        <b>if</b> (x+radius &gt;= x_start) {
+          p = <span style="color:darkblue">getPixel</span>(x,y);
+          buffer[x%radius] = p;    <span style="color:green">// buffer pixel</span>
+          dif -= 2*p;
+        }
+      } // x
+    } // y
+  } // blur
+</pre>
+      </td>
+    </tr>
+</table>
+  <hr noshade="noshade" size="1">
+  <p>Copyright &#169; Alois Zingl, Vienna, Austria, Email: <script type="text/javascript">
+    //<![CDATA[
+    var r = "&#46at";
+    document.write('<a title="Send mail!" id="[at]" href="m' + 'ail'+ Psns('easyfilter') + 
+        "chello" + r + '"><img align="absbottom" src="email.gif" border="0"><\/a>');
+    //]]>
+  </script><noscript><img align="absbottom" src="email.gif" /></noscript>, last update July 2020.</p>
+     
+  </body>
+</html>

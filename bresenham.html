@@ -20,9 +20,10 @@ window.onload = function() { 	with (document.getElementById("[at]").firstChild.p
 		font-size: 1em;
 		padding: 5px 20px;
 		width: 700px;
+		border-right:0px;
 	}
 	[tabs] > * {
-		flex-grow:1;
+		flex:1;
 		font-size: 1.5em;
 		padding: 10px 20px;
 		cursor: pointer;
@@ -30,6 +31,7 @@ window.onload = function() { 	with (document.getElementById("[at]").firstChild.p
 		text-align: center;
 		margin-top: -1px;
 		background: #eff;
+        border: 1px solid #aaa;
 	}
 	[tabs] > :hover {
 		color: #036;
@@ -47,10 +49,11 @@ window.onload = function() { 	with (document.getElementById("[at]").firstChild.p
     <title>Bresenham</title>
   </head>
   <body style="font-family:Arial,sans-serif" bgcolor="#C0FFE0">
-		<div tabs><div class="active">Bresenham</div><a href="index.html"><div >2D-Barcode</div></a></div>
+		<div tabs class="bc"><div class="active">Bresenham</div>
+		<a href="index.html"><div >Barcode</div></a>
+		<a href="blurring.html" style="border-left: 0px"><div >Blurring</div></a></div>
 <table style="max-width:700px;"><tbody>	<tr>
 	  <td>
-		<h3></h3>
 	  </td>
 	</tr>
 <tr><td>
@@ -61,16 +64,17 @@ window.onload = function() { 	with (document.getElementById("[at]").firstChild.p
   <p>This page introduces a compact and efficient implementation of 
 Bresenham's algorithm to plot lines, circles, ellipses and B&eacute;zier 
 curves.</p>
-  <p>A detailed documentation of the algorithm and more program examples are availble in PDF: <a href="Bresenham.pdf">Bresenham.pdf</a>.</p>
+  <p>A detailed documentation of the algorithm and more program examples are availble: <u><a href="Bresenham.pdf">Bresenham.pdf</a></u>.</p>
   <p>Some C-program examples of the document are listed below.</p>
   <p>You can try the Bresenham algorithm online on this&nbsp;<a href="canvas.html" style="background-color:white"> scratchpad </a>.</p>
   <p>The source code of the samples is also available in C: <a href="bresenham.c">bresenham.c</a></p>
   <p>Free and open-source software program (MIT license).</p>
  
-</td></tr><tr><td>
+</td></tr></table>
+<table><tr><td>
 	<h3 style="text-align:left;text-indent:2em;"><a href="http://en.wikipedia.org/wiki/Line_drawing_algorithm" name="line">Line</a></h3>
   <p>A simple example of Bresenham's line algorithm.  </p>
-  <pre style="font-family:monospace; padding-left:2em;line-height:130%;"><b>void</b> <span style="color:darkblue">plotLine</span>(<b>int</b> x0, <b>int</b> y0, <b>int</b> x1, <b>int</b> y1)
+  <pre><b>void</b> <span style="color:darkblue">plotLine</span>(<b>int</b> x0, <b>int</b> y0, <b>int</b> x1, <b>int</b> y1)
 {
    <b>int</b> dx =  <span style="color:darkblue">abs</span>(x1-x0), sx = x0&lt;x1 ? 1 : -1;
    <b>int</b> dy = -<span style="color:darkblue">abs</span>(y1-y0), sy = y0&lt;y1 ? 1 : -1; 
@@ -89,7 +93,7 @@ curves.</p>
 </td><td><img src="line.png" alt="Line"></td></tr><tr><td>
 	<h3 style="text-align:left;text-indent:2em;"><a href="http://en.wikipedia.org/wiki/Line_drawing_algorithm" name="line">Bresenham in 3D</a></h3>
   <p>The algorithm could be extended to three (or more) dimensions.  </p>
-  <pre  style="font-family:monospace; padding-left:2em;line-height:130%;">
+  <pre>
 <b>void</b> <span style="color:darkblue">plotLine3d</span>(<b>int</b> x0, <b>int</b> y0, <b>int</b> z0, <b>int</b> x1, <b>int</b> y1, <b>int</b> z1)
 {
    <b>int</b> dx = <span style="color:darkblue">abs</span>(x1-x0), sx = x0&lt;x1 ? 1 : -1;
@@ -99,9 +103,9 @@ curves.</p>
  
    <b>for</b>(x1 = y1 = z1 = i/2; i-- &gt;= 0; ) {  <span style="color:green">/* loop */</span>
       <span style="color:darkblue">setPixel</span>(x0,y0,z0);
-      x1 -= dx; <b>if</b> (x1 < 0) { x1 += dm; x0 += sx; } 
-      y1 -= dy; <b>if</b> (y1 < 0) { y1 += dm; y0 += sy; } 
-      z1 -= dz; <b>if</b> (z1 < 0) { z1 += dm; z0 += sz; } 
+      x1 -= dx; <b>if</b> (x1 &lt; 0) { x1 += dm; x0 += sx; } 
+      y1 -= dy; <b>if</b> (y1 &lt; 0) { y1 += dm; y0 += sy; } 
+      z1 -= dz; <b>if</b> (z1 &lt; 0) { z1 += dm; z0 += sz; } 
    }
 }
   </pre>
@@ -110,7 +114,7 @@ curves.</p>
 
    <h3 style="text-align:left;text-indent:2em;"><a href="http://en.wikipedia.org/wiki/Midpoint_circle_algorithm" name="circle">Circle</a></h3>
   <p>This is an implementation of the circle algorithm.  </p>
-  <pre style="font-family:monospace; padding-left:2em;line-height:130%;"><b>void</b> <span style="color:darkblue">plotCircle</span>(<b>int</b> xm, <b>int</b> ym, <b>int</b> r)
+  <pre><b>void</b> <span style="color:darkblue">plotCircle</span>(<b>int</b> xm, <b>int</b> ym, <b>int</b> r)
 {
    <b>int</b> x = -r, y = 0, err = 2-2*r; <span style="color:green">/* II. Quadrant */ </span>
    <b>do</b> {
@@ -129,7 +133,7 @@ curves.</p>
 
   <h3 style="text-align:left;text-indent:2em;"><a href="http://en.wikipedia.org/wiki/Ellipse" name="ellipse">Ellipse</a></h3>
   <p>This program example plots an ellipse inside a specified rectangle.</p>
-  <pre style="font-family:monospace; padding-left:2em;line-height:130%;"><b>void</b> <span style="color:darkblue">plotEllipseRect</span>(<b>int</b> x0, <b>int</b> y0, <b>int</b> x1, <b>int</b> y1)
+  <pre><b>void</b> <span style="color:darkblue">plotEllipseRect</span>(<b>int</b> x0, <b>int</b> y0, <b>int</b> x1, <b>int</b> y1)
 {
    <b>int</b> a = <span style="color:darkblue">abs</span>(x1-x0), b = <span style="color:darkblue">abs</span>(y1-y0), b1 = b&amp;1; <span style="color:green">/* values of diameter */</span>
    <b>long</b> dx = 4*(1-a)*b*b, dy = 4*(b1+1)*a*a; <span style="color:green">/* error increment */</span>
@@ -165,7 +169,7 @@ curves.</p>
   <p>This program example plots a quadratic B&eacute;zier curve limited to gradients without sign change.</p>
 
 </td></tr><tr><td>
-  <pre style="font-family:monospace; padding-left:2em;line-height:130%;"><b>void</b> <span style="color:darkblue">plotQuadBezierSeg</span>(<b>int</b> x0, <b>int</b> y0, <b>int</b> x1, <b>int</b> y1, <b>int</b> x2, <b>int</b> y2)
+  <pre><b>void</b> <span style="color:darkblue">plotQuadBezierSeg</span>(<b>int</b> x0, <b>int</b> y0, <b>int</b> x1, <b>int</b> y1, <b>int</b> x2, <b>int</b> y2)
 {                            
   <b>int</b> sx = x2-x1, sy = y2-y1;
   <b>long</b> xx = x0-x1, yy = y0-y1, xy;         <span style="color:green">/* relative values for checks */</span>
@@ -202,7 +206,7 @@ curves.</p>
     <tr><td>
 	<h3 style="text-align:left;text-indent:2em;"><a href="http://en.wikipedia.org/wiki/Xiaolin_Wu%27s_line_algorithm" name="lineAA">Anti-aliased line</a></h3>
   <p>The algorithm could be modified to draw an anti-aliased line.  </p>
-  <pre style="font-family:monospace; padding-left:2em;line-height:130%;"><b>void</b> <span style="color:darkblue">plotLineAA</span>(<b>int</b> x0, <b>int</b> y0, <b>int</b> x1, <b>int</b> y1)
+  <pre><b>void</b> <span style="color:darkblue">plotLineAA</span>(<b>int</b> x0, <b>int</b> y0, <b>int</b> x1, <b>int</b> y1)
 {
    <b>int</b> dx = <span style="color:darkblue">abs</span>(x1-x0), sx = x0&lt;x1 ? 1 : -1;
    <b>int</b> dy = <span style="color:darkblue">abs</span>(y1-y0), sy = y0&lt;y1 ? 1 : -1; 
@@ -230,7 +234,7 @@ curves.</p>
 
   <h3 style="text-align:left;text-indent:2em;">Anit-aliased quadratic B&eacute;zier curve</h3>
   <p>This program example draws a segment of an anti-alised quadratic B&eacute;zier curve.</p>
-  <pre style="font-family:monospace; padding-left:2em;line-height:130%;"><b>void</b> <span style="color:darkblue">plotQuadBezierSegAA</span>(<b>int</b> x0, <b>int</b> y0, <b>int</b> x1, <b>int</b> y1, <b>int</b> x2, <b>int</b> y2)
+  <pre><b>void</b> <span style="color:darkblue">plotQuadBezierSegAA</span>(<b>int</b> x0, <b>int</b> y0, <b>int</b> x1, <b>int</b> y1, <b>int</b> x2, <b>int</b> y2)
 {  
    <b>int</b> sx = x2-x1, sy = y2-y1;
    <b>long</b> xx = x0-x1, yy = y0-y1, xy;         <span style="color:green">/* relative values for checks */</span>
@@ -276,7 +280,7 @@ curves.</p>
 </td><td><img src="quadAA.png" alt="Ellispe"></td></tr><tr><td>
 	<h3 style="text-align:left;text-indent:2em;">Anti-aliased thick line</h3>
   <p>This algorithm draws an anti-aliased line of <span style="font-family:monospace">wd</span> pixel width.  </p>
-  <pre style="font-family:monospace; padding-left:2em;line-height:130%;"><b>void</b> <span style="color:darkblue">plotLineWidth</span>((<b>int</b> x0, <b>int</b> y0, <b>int</b> x1, <b>int</b> y1, <b>float</b> wd)
+  <pre><b>void</b> <span style="color:darkblue">plotLineWidth</span>((<b>int</b> x0, <b>int</b> y0, <b>int</b> x1, <b>int</b> y1, <b>float</b> wd)
 { 
    <b>int</b> dx = <span style="color:darkblue">abs</span>(x1-x0), sx = x0 &lt; x1 ? 1 : -1; 
    <b>int</b> dy = <span style="color:darkblue">abs</span>(y1-y0), sy = y0 &lt; y1 ? 1 : -1; 
