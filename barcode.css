@@ -6,7 +6,7 @@ body {
   background-color: #C0FFE0;
 }
 
-a { text-decoration:none; }
+a { text-decoration-color: DarkSeaGreen;}
 a:link { color: darkcyan;  }
 a:visited { color: #004080; }
 a:active { color: black; }
