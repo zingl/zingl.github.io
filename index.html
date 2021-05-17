@@ -126,7 +126,7 @@
 		var ratio = parseInt(document.pdf.ratio.value);
 		if (document.pdf.micro.checked) t = "m";
 		else if (document.pdf.compact.checked) t = "c";
-		var pdf = pdf417(text);//,level,(ratio/32|0)+1,0,t); // call bar code function, return as matrix
+		var pdf = pdf417(text,level,(ratio/32|0)+1,0,t); // call bar code function, return as matrix
 		if (pdf.length > 0) 
 			PDF417.src = toGif(pdf,[s/3|0,s],form.bg.checked ? 3 : 0,form.bg.checked ? 2 : 0); // draw PDF417
 	  }
@@ -189,7 +189,7 @@
 		  <p><div id="remark" style="text-align: center">
 			The barcode generator is 100% client-side <a href="barcode.js" title="source code">JavaScript</a> without any dependencies.
 		  </div></p>
-		  <p style="text-align: center;">You can also view a very simple page of <a href="easy.html">Easy Barcode Generation</a>.</p>
+		  <p style="text-align: center;">You can also view a very simple page of <a href="easybar.html">Easy Barcode Generation</a>.</p>
 		  <p><div id="remark" style="text-align: center">
 			 <label><input type="checkbox" name="bg" title="toggle view" onclick="draw()" /> simple layout for copying barcode images.</label>
 		  </div></p>
