@@ -11,15 +11,15 @@
 		var text = unescape(encodeURIComponent(form.text.value)); // unicode chars to utf-8
 		
 		// DataMatrix in SVG
-		var path = toPath(toMatrix(datamatrix, text, true)); // get svg path of Data Matrix
+		var path = toPath(datamatrix(text)); // get svg path of Data Matrix
 		svg.replaceChild(path,svg.firstElementChild); // replace drawing
 		svg.parentNode.setAttribute("style","height:"+svg.getBBox().height*6+"px"); // adjust size
 		
 		// QRCode in GIF
 		qr.src = toGif(quickresponse(text),6); // matrix as gif
 		
-		// Aztec in GIF
-		azt.src = toGif(toMatrix(aztec,text),6); // setCell of aztec to matrix as gif
+		// Aztec in canvas
+		toCanvas(aztec(text),azt,6); // aztec to matrix as canvas
 
 		// PDF417 in HTML/CSS
 		pdf.innerHTML = toHtml(pdf417(text),[4,10]); // matrix to HTML/CSS
@@ -40,13 +40,13 @@
 	</form>
 
 	<h2>Data Matrix</h2>
-	<svg><g id=svg transform="scale(6)"><path></path></g></svg>
+	<svg><g id="svg" transform="scale(6)"><path></path></g></svg>
 	
 	<h2>QR Code</h2>
 		<img id="qr" />
 	
 	<h2>Aztec</h2>
-		<img id="azt" />
+		<canvas id="azt"></canvas>
 	
 	<h2>PDF417</h2>
 		<p id="pdf"></p>
