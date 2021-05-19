@@ -62,7 +62,7 @@
 		bg.setAttribute('width', s*12);
 		bg.setAttribute('height', s*36);
 		bg = bg.firstElementChild;
-		bg.replaceChild(toPath(toMatrix(datamatrix, Date().substr(0,24), true)),bg.firstElementChild);
+		bg.replaceChild(toPath(datamatrix(Date().substr(0,24), true)),bg.firstElementChild);
 		bg.setAttribute('transform','scale('+s+') translate(0,37) rotate(-90)');
 		back1.parentNode.style.transitionTimingFunction = "cubic-bezier(0.5,"+(1-i)+",1,1)";
 		back2.parentNode.style.transitionTimingFunction = "cubic-bezier(0.5,"+i+",1,1)";
