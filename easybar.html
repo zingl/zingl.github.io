@@ -8,13 +8,13 @@
   <script type="text/javascript">
 	function barcode() { 
 		var text = unescape(encodeURIComponent(form.text.value)); // unicode chars to utf-8
-		
+	
 		// DataMatrix in SVG
 		path.setAttribute('d',toPath(datamatrix(text))); // matrix as svg path
 		svg.setAttribute('style','height:'+svg.getBBox().height+'px'); // scale height
 		
 		// QRCode in GIF
-		gif.src = toGif(quickresponse(text),6); // matrix as gif
+		gif.src = toGif(quickresponse(form.text.value),6); // matrix as gif
 		
 		// Aztec in canvas
 		var ctx = canvas.getContext('2d'), mat = aztec(text);
@@ -31,13 +31,10 @@
 </head>
 <body onload="barcode()">
 	<h1>Easy Barcode Generation</h1>
-	
 	<p>Check this page source to see how simple barcode generation is!</p>
 
 	<h3>Message to encode:</h3>
-	<form name="form">
-	  <p><textarea name="text" cols="60" rows="6" title="type barcode text here" onkeyup="barcode()">TYPE TEXT HERE</textarea></p>
-	</form>
+	<form id="form"><textarea id="text" cols="60" onkeyup="barcode()">TYPE TEXT HERE</textarea></form>
 
 	<h2>Data Matrix</h2>
 	as SVG: <svg id="svg"><path id="path" transform="scale(6)" /></svg>
