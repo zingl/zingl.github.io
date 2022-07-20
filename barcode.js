@@ -447,7 +447,7 @@ function quickresponse(text, level, ver) { // create QR and micro QR bar code sy
 }
 
 /**	Aztec bar code symbol creation according ISO/IEC 24778:2008
-*	creates Actec and compact Aztec bar code symbol by call back function.
+*	creates Actec and compact Aztec bar code symbol.
 * @param text to encode
 * @param sec optional: percentage of checkwords used for security 2%-90% (23%)
 * @param lay optional: minimum number of layers (size), 0: Aztec Rune
@@ -466,7 +466,7 @@ function aztec(text, sec, lay) { // make Aztec bar code
 	var CharMap = [	"  ABCDEFGHIJKLMNOPQRSTUVWXYZ", // upper
 	                "  abcdefghijklmnopqrstuvwxyz", // lower
 	                String.fromCharCode(0,32,1,2,3,4,5,6,7,8,9,10,11,12,13,
-	                    7,28,29,30,31,64,92,94,95,96,124,126,127), // mixed
+	                    27,28,29,30,31,64,92,94,95,96,124,126,127), // mixed
 	                " \r\r\r\r\r!\"#$%&'()*+,-./:;<=>?[]{}", // punct
 	                "  0123456789,."]; // digit
 	var enc, el = text.length, b, typ = 0, x,y, ctr, c, i, j, l;
@@ -1007,17 +1007,17 @@ function toGif(mat, scale, trans, pad, rgb, max) {
 /** convert a black&white image matrix to html/css
 * @param mat 0/1 image matrix array
 * @param size optional (3): single bar in pixel, or as [width,height]
-* @param blocks optional (7): # of bar/space classes
+* @param blocks optional (5): # of bar/space classes
 * @return html/css of 2D barcode
 */
 function toHtml(mat, size, blocks) {
 	if (!Array.isArray(size)) size = [size||3,size||3];
 	var s = "barcode"+size[0]+size[1], b; // style class
 	var html = "<style> ."+s+" div {float:left; margin:0; height:"+size[1]+"px}";
-	blocks = blocks||7;
+	blocks = blocks||5;
 	for (var i = 0; i < blocks; i++) // define bars/spaces
 		for (var j = 0; j < blocks; j++)
-			html += "."+s+" .bar"+i+j+" {border-left:"+i*size[0]+"px solid; margin-right:"+j*size[0]+"px}";
+			html += "."+s+" .bar"+j+i+" {border-left:"+j*size[0]+"px solid; margin-right:"+i*size[0]+"px}";
 	html += "</style><div class="+s+" style='line-height:"+size[1]+"px; display:inline-block'>";
 
 	for (i = 0; i < mat.length; i++) // convert matrix
